@@ -11,7 +11,7 @@ var bookSchema = new mongoose.Schema(
     authors: {
       type: String,
       required: true,
-      maxlength: 50,
+      maxlength: 32,
     },
     publication: {
       type: String,
