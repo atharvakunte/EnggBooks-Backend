@@ -9,7 +9,7 @@ exports.getBookById = (req, res, next, id) => {
     .exec((err, book) => {
       if (err) {
         return res.status(400).json({
-          err: "Product not found in DB",
+          err: "Book not found in DB",
         });
       }
       req.book = book;
@@ -118,10 +118,31 @@ exports.getBooksBySubcategory = (req, res) => {
     .populate()
     .exec((err, books) => {
       if (err) {
-        res.status(400).json({
+        return res.status(400).json({
           err: "No Books Found",
         });
       }
       res.json(books);
     });
+};
+
+exports.searchBooks = (req, res) => {
+  Book.find({ $text: { $search: req.searchtext } }).exec((err, books) => {
+    if (err) {
+      return res.status(400).json({
+        err: "No Books Found",
+      });
+    }
+    res.json(books);
+  });
+};
+
+exports.getSearchtext = (req, res, next, searchtext) => {
+  if (!searchtext) {
+    return res.json({
+      err: "Please enter something to search",
+    });
+  }
+  req.searchtext = searchtext;
+  next();
 };

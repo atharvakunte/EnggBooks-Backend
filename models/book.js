@@ -42,4 +42,6 @@ var bookSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+bookSchema.index({ name: "text", authors: "text", publication: "text" });
+
 module.exports = mongoose.model("Book", bookSchema);
